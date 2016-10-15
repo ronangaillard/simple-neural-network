@@ -8,8 +8,6 @@ nn = NeuralNetwork(2, 1, 3)
 custom_input = np.matrix([ [3, 10], [2, 3], [7, 8] ])
 expected_output = np.matrix( [ [4], [1], [2]])
 
-output = nn.process(custom_input)
-
 for i in range(0,40):
 
     cost = nn.cost(custom_input, expected_output)
@@ -19,3 +17,6 @@ for i in range(0,40):
 
     nn.W1 += gradientW1 * scalar
     nn.W2 += gradientW2 * scalar
+
+output = nn.process(custom_input)
+print "Output :", output

@@ -33,17 +33,16 @@ class NeuralNetwork:
         a2 = self.neural_function(Z2)
         output = self.process(input)
         Z3 = np.dot(a2, self.W2)
-        sigma3 = -(np.subtract(output, expected_output))
+        sigma3 = -(output - expected_output)
         sigma3 = np.multiply(sigma3 , self.neural_function_prime(Z3) )
         dJdW2 = np.dot(np.transpose(a2), sigma3)
 
-        sigma2 = np.dot(sigma3, np.transpose(self.W2))
-        sigma2 = np.dot(sigma2, self.neural_function_prime(Z2))
+        sigma2 = np.dot(sigma3, np.transpose(self.W2)) * self.neural_function_prime(Z2)
         dJdW1 = np.dot(np.transpose(input), sigma2)
 
         return dJdW1, dJdW2
 
     # Cost function
     def cost(self, input, expected_output):
-        return 0.5 * np.square( np.sum(self.process(input) - expected_output) )
+        return 0.5 * np.sum( np.square( self.process(input) - expected_output ) )
 
