@@ -15,10 +15,10 @@ class NeuralNetwork:
 
     # Computes the neural network output given the input 
     def process(self, input):
-        Z2 = np.dot(input, self.W1)
-        a2 = self.neural_function(Z2)
-        Z3 = np.dot(a2, self.W2)
-        return self.neural_function(Z3)
+        self.Z2 = np.dot(input, self.W1)
+        a2 = self.neural_function(self.Z2)
+        self.Z3 = np.dot(a2, self.W2)
+        return self.neural_function(self.Z3)
 
     # Sigmoid function
     def neural_function(self, x):
@@ -29,15 +29,13 @@ class NeuralNetwork:
         return np.exp( -x ) / ( np.square( 1 + np.exp( -x ) ) )
 
     def compute_gradient(self, input, expected_output):
-        Z2 = np.dot(input, self.W1)
-        a2 = self.neural_function(Z2)
         output = self.process(input)
-        Z3 = np.dot(a2, self.W2)
+        a2 = self.neural_function(self.Z2)
         sigma3 = -(output - expected_output)
-        sigma3 = np.multiply(sigma3 , self.neural_function_prime(Z3) )
+        sigma3 = np.multiply(sigma3 , self.neural_function_prime(self.Z3) )
         dJdW2 = np.dot(np.transpose(a2), sigma3)
 
-        sigma2 = np.dot(sigma3, np.transpose(self.W2)) * self.neural_function_prime(Z2)
+        sigma2 = np.dot(sigma3, np.transpose(self.W2)) * self.neural_function_prime(self.Z2)
         dJdW1 = np.dot(np.transpose(input), sigma2)
 
         return dJdW1, dJdW2
