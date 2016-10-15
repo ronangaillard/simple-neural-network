@@ -42,3 +42,8 @@ class NeuralNetwork:
         dJdW1 = np.dot(np.transpose(input), sigma2)
 
         return dJdW1, dJdW2
+
+    # Cost function
+    def cost(self, input, expected_output):
+        return 0.5 * np.square( np.sum(self.process(input) - expected_output) )
+
