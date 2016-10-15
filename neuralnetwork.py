@@ -23,3 +23,22 @@ class NeuralNetwork:
     # Sigmoid function
     def neural_function(self, x):
         return 1 / ( 1 + np.exp(-x) )
+
+    # Derivative of the sigmoid function
+    def neural_function_prime(self, x):
+        return np.exp( -x ) / ( np.square( 1 + np.exp( -x ) ) )
+
+    def compute_gradient(self, input, expected_output):
+        Z2 = np.dot(input, self.W1)
+        a2 = self.neural_function(Z2)
+        output = self.process(input)
+        Z3 = np.dot(a2, self.W2)
+        sigma3 = -(np.subtract(output, expected_output))
+        sigma3 = np.multiply(sigma3 , self.neural_function_prime(Z3) )
+        dJdW2 = np.dot(np.transpose(a2), sigma3)
+
+        sigma2 = np.dot(sigma3, np.transpose(self.W2))
+        sigma2 = np.dot(sigma2, self.neural_function_prime(Z2))
+        dJdW1 = np.dot(np.transpose(input), sigma2)
+
+        return dJdW1, dJdW2
